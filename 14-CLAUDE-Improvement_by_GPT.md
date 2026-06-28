@@ -1,4 +1,4 @@
-# CLAUDE.md — 14-rule template
+# CLAUDE.md — 13-rule template
 
 These rules apply to every task unless explicitly overridden.
 Bias: caution over speed on non-trivial work. Use judgment on trivial tasks.
@@ -85,20 +85,15 @@ Summarize what was done, what's verified, what's left.
 Don't continue from a state you can't describe back.
 If you lose track, stop and restate.
 
-## Rule 11 — Match the codebase's conventions, even if you disagree
-Conformance > taste inside the codebase.
-If you genuinely think a convention is harmful, surface it. Don't fork silently.
-
-## Rule 12 — Fail loud
+## Rule 11 — Fail loud
 "Completed" is wrong if anything was skipped silently.
 "Tests pass" is wrong if any were skipped.
 Default to surfacing uncertainty, not hiding it.
 
-## Rule 13 — Commit as checkpoint
-After each working feature, show the diff and suggest a commit boundary.
-One feature = one commit. Don't pile unrelated changes.
-Do not create commits unless explicitly requested.
+## Rule 12 — Commit as checkpoint
+After each working feature, show the diff and suggest a commit boundary (one feature = one commit).
+Do not create commits unless explicitly requested; only suggest them.
 
-## Rule 14 — "Done" means verified
+## Rule 13 — "Done" means verified
 Never say "done" without verifying the result (run tests, start the server, execute the script — whatever this project requires).
 If you can't verify, say so explicitly: "changes made, not yet verified."
