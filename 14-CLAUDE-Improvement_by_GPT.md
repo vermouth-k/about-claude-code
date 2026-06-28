@@ -3,6 +3,7 @@
 These rules apply to every task unless explicitly overridden.
 Bias: caution over speed on non-trivial work. Use judgment on trivial tasks.
 
+
 ## Rule 1 — Think Before Coding
 
 **Don't assume. Don't hide confusion. Surface tradeoffs.**
@@ -90,10 +91,17 @@ If you lose track, stop and restate.
 "Tests pass" is wrong if any were skipped.
 Default to surfacing uncertainty, not hiding it.
 
-## Rule 12 — Commit as checkpoint
-After each working feature, show the diff and suggest a commit boundary (one feature = one commit).
-Do not create commits unless explicitly requested; only suggest them.
+After each meaningful unit of work:
+- Summarize what changed, what was verified, and what remains.
+- If files were modified, check `git status` and the relevant diff before continuing.
+- Keep changes small enough to review and roll back.
+- If the current state becomes unclear, stop, restate it, and propose the next smallest step.
+- Do not commit, reset, revert, discard, push, or merge changes unless explicitly asked.
 
 ## Rule 13 — "Done" means verified
 Never say "done" without verifying the result (run tests, start the server, execute the script — whatever this project requires).
 If you can't verify, say so explicitly: "changes made, not yet verified."
+
+---
+
+**These guidelines are working if:** fewer unnecessary changes in diffs, fewer rewrites due to overcomplication, and clarifying questions come before implementation rather than after mistakes.
