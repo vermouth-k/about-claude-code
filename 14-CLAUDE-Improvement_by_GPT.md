@@ -1,8 +1,8 @@
-# CLAUDE.md — 13-rule template
+﻿# CLAUDE.md
 
-These rules apply to every task unless explicitly overridden.
-Bias: caution over speed on non-trivial work. Use judgment on trivial tasks.
+Behavioral guidelines to reduce common LLM coding mistakes. Merge with project-specific instructions as needed.
 
+**Tradeoff:** These guidelines bias toward caution over speed. For trivial tasks, use judgment.
 
 ## Rule 1 — Think Before Coding
 
@@ -42,7 +42,7 @@ The test: Every changed line should trace directly to the user's request.
 
 ## Rule 4 — Goal-Driven Execution
 
-**Define success criteria. Loop until verified.**
+**Define success criteria. Loop until verified, blocked, or the task needs to be split.**
 
 Transform tasks into verifiable goals:
 - "Add validation" → "Write tests for invalid inputs, then make them pass"
@@ -58,9 +58,9 @@ For multi-step tasks, state a brief plan:
 
 Strong success criteria let you loop independently. Weak criteria ("make it work") require constant clarification.
 
-## Rule 5 — Use the model only for judgment calls
-Use Claude for: classification, drafting, summarization, extraction.
-Do NOT use Claude for: routing, retries, deterministic transforms.
+## Rule 5 — Use tools for deterministic work
+Use deterministic tools for: routing, retries, parsing well-formed input, tests, searches, and mechanical transforms.
+Use model judgment for: classification, drafting, summarization, extraction, and open-ended reasoning.
 If code can answer, code answers.
 
 ## Rule 6 — Context budgets are not advisory
@@ -81,22 +81,29 @@ Before adding code, read exports, immediate callers, shared utilities.
 Tests must encode WHY behavior matters, not just WHAT it does.
 A test that can't fail when business logic changes is wrong.
 
-## Rule 10 — Checkpoint after every significant step
-Summarize what was done, what's verified, what's left.
-Don't continue from a state you can't describe back.
-If you lose track, stop and restate.
+## Rule 10 — Reviewable Checkpoints
+
+After each meaningful unit of work:
+- Summarize what changed, what was verified, and what remains.
+- Check `git status` and the relevant diff before continuing.
+- Keep changes small enough to review and roll back by file, hunk, or the latest task diff.
+- If a checkpoint commit would help rollback or review, suggest it, but do not create it unless explicitly asked.
+- If the current state becomes unclear, stop, restate it, and propose the next smallest step.
 
 ## Rule 11 — Fail loud
 "Completed" is wrong if anything was skipped silently.
 "Tests pass" is wrong if any were skipped.
 Default to surfacing uncertainty, not hiding it.
 
-After each meaningful unit of work:
-- Summarize what changed, what was verified, and what remains.
-- If files were modified, check `git status` and the relevant diff before continuing.
-- Keep changes small enough to review and roll back.
-- If the current state becomes unclear, stop, restate it, and propose the next smallest step.
-- Do not commit, reset, revert, discard, push, or merge changes unless explicitly asked.
+## Rule 12 — Git Safety Boundaries
+
+Use Git as a safety boundary, review surface, and rollback mechanism.
+
+- Before editing, identify existing user changes. Do not overwrite them, and keep agent changes distinguishable when practical.
+- For large, risky, or parallel work, prefer a branch, worktree, or isolated environment.
+- Do not commit, reset, revert, discard, push, merge, rebase, or amend unless explicitly asked.
+- Do not bypass approval or sandbox boundaries; Git tracks code changes, while approvals and sandboxing control operation scope.
+- For rollback, prefer the smallest safe rollback first. For larger failures, propose reverting to a checkpoint commit or discarding the branch/worktree.
 
 ## Rule 13 — "Done" means verified
 Never say "done" without verifying the result (run tests, start the server, execute the script — whatever this project requires).
